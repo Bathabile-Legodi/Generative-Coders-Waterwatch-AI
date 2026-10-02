@@ -100,10 +100,10 @@ function Index() {
         <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 lg:px-10">
           <div className="max-w-2xl">
             <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
-              Water Network Overview
+              City Water Infrastructure Dashboard
             </h1>
             <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-              Select an area to view its monitoring information.
+              Click on any zone below or on the map to see how its pipes are performing.
             </p>
           </div>
 
@@ -144,17 +144,16 @@ function Index() {
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-widest text-teal">
-                  Automated Analysis
+                  AI Issue Detection
                 </p>
                 <h2
                   id="anomaly-heading"
                   className="mt-1 text-xl font-bold tracking-tight text-foreground sm:text-2xl"
                 >
-                  Anomaly Detection &amp; Inspection Priority
+                  Priority Issues &amp; Potential Leaks
                 </h2>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Unusual flow or pressure readings detected using transparent,
-                  reproducible statistics on the workshop synthetic dataset.
+                  Our system automatically flags pipes that show unusual water flow or pressure drops, helping teams fix leaks faster.
                 </p>
               </div>
               <button
@@ -198,7 +197,7 @@ function Header({
 }) {
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-border bg-navy shadow-lg">
+      <header className="sticky top-0 z-40 border-b border-border bg-card shadow-sm">
         <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3 sm:px-6 lg:px-10">
           {/* Logo */}
           <div className="flex items-center gap-3 min-w-0">
@@ -206,10 +205,10 @@ function Header({
               <Droplets className="h-5 w-5" aria-hidden="true" />
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold leading-tight text-white">
+              <p className="truncate text-sm font-bold leading-tight text-foreground">
                 Waterwatch AI
               </p>
-              <p className="truncate text-[11px] text-white/50 hidden sm:block">
+              <p className="truncate text-[11px] text-muted-foreground hidden sm:block">
                 Municipal water networks
               </p>
             </div>
@@ -219,15 +218,15 @@ function Header({
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 ml-8">
             <Link
               to="/"
-              className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-teal/40 transition hover:bg-white/15"
-              activeProps={{ className: "bg-white/15" }}
+              className="flex items-center gap-2 rounded-lg bg-teal/10 px-4 py-2 text-sm font-semibold text-teal ring-1 ring-inset ring-teal/40 transition hover:bg-teal/20"
+              activeProps={{ className: "bg-teal/15" }}
             >
               <LayoutDashboard className="h-4 w-4 text-teal" aria-hidden="true" />
               Dashboard
             </Link>
             <Link
               to="/report"
-              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-muted-foreground transition hover:bg-secondary hover:text-foreground"
             >
               <AlertTriangle className="h-4 w-4 text-teal" aria-hidden="true" />
               Report a Leak
@@ -248,7 +247,7 @@ function Header({
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="flex md:hidden h-9 w-9 items-center justify-center rounded-xl bg-white/10 text-white transition hover:bg-white/20"
+              className="flex md:hidden h-9 w-9 items-center justify-center rounded-xl bg-secondary text-foreground transition hover:bg-secondary/80"
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" aria-hidden="true" />
@@ -261,11 +260,11 @@ function Header({
 
         {/* Mobile nav drawer */}
         {mobileMenuOpen && (
-          <div className="border-t border-white/10 bg-navy px-4 pb-4 pt-2 md:hidden">
+          <div className="border-t border-border bg-card px-4 pb-4 pt-2 md:hidden">
             <Link
               to="/"
-              className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
-              activeProps={{ className: "bg-white/10 text-white ring-1 ring-inset ring-teal/40" }}
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "bg-teal/10 text-teal ring-1 ring-inset ring-teal/40" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               <LayoutDashboard className="h-4 w-4 text-teal" aria-hidden="true" />
@@ -273,14 +272,14 @@ function Header({
             </Link>
             <Link
               to="/report"
-              className="mt-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
-              activeProps={{ className: "bg-white/10 text-white ring-1 ring-inset ring-teal/40" }}
+              className="mt-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              activeProps={{ className: "bg-teal/10 text-teal ring-1 ring-inset ring-teal/40" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               <AlertTriangle className="h-4 w-4 text-teal" aria-hidden="true" />
               Report a Leak
             </Link>
-            <p className="mt-4 px-1 text-[11px] text-white/40">
+            <p className="mt-4 px-1 text-[11px] text-muted-foreground">
               Milestone 1 · Area overview
             </p>
           </div>
@@ -311,7 +310,7 @@ const REPAIR_LABEL: Record<Area["leakageRisk"], string> = {
 function MapFlyTo({ area }: { area: Area | null }) {
   const map = useMap();
   if (area) {
-    map.flyTo([area.coordinates.lat, area.coordinates.lng], 6, { duration: 0.8 });
+    map.flyTo([area.coordinates.lat, area.coordinates.lng], 12, { duration: 0.8 });
   }
   return null;
 }
@@ -325,9 +324,9 @@ function LeakageMap({
   selectedArea: Area | null;
   onSelect: (area: Area) => void;
 }) {
-  // SA-centered default view
-  const SA_CENTER: [number, number] = [-28.5, 25.0];
-  const SA_ZOOM = 5;
+  // Johannesburg-centered default view
+  const JHB_CENTER: [number, number] = [-26.2041, 28.0473];
+  const JHB_ZOOM = 10;
 
   return (
     <section
@@ -335,23 +334,22 @@ function LeakageMap({
       className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
     >
       {/* Header */}
-      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-navy px-5 py-4">
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-card px-5 py-4">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-widest text-teal">
-            OpenStreetMap · Illustrative Zone Overview
+            City Map Overview
           </p>
-          <h2 id="map-heading" className="mt-0.5 text-base font-bold text-white">
-            Zone Location Map
+          <h2 id="map-heading" className="mt-0.5 text-base font-bold text-foreground">
+            Interactive City Map
           </h2>
-          <p className="mt-0.5 text-[10px] text-white/40">
-            Marker positions use approximate South African city coordinates —
-            not GPS data from the synthetic dataset. Click a marker to select its zone.
+          <p className="mt-0.5 text-[10px] text-muted-foreground">
+            See where our monitored water zones are located across the city. Click any marker to view details for that area.
           </p>
         </div>
         {/* Legend — based on repair count, not live risk */}
         <div className="flex flex-col gap-1.5 text-right">
           {(["high", "medium", "low"] as const).map((r) => (
-            <span key={r} className="flex items-center justify-end gap-1.5 text-[11px] text-white/70">
+            <span key={r} className="flex items-center justify-end gap-1.5 text-[11px] text-muted-foreground">
               <span
                 className="h-2 w-2 rounded-full"
                 style={{ backgroundColor: RISK_COLORS[r] }}
@@ -365,8 +363,8 @@ function LeakageMap({
       {/* Map */}
       <div className="relative">
         <MapContainer
-          center={SA_CENTER}
-          zoom={SA_ZOOM}
+          center={JHB_CENTER}
+          zoom={JHB_ZOOM}
           className="waterwatch-map-container"
           zoomControl={true}
           scrollWheelZoom={false}
@@ -539,7 +537,7 @@ function AreaCard({
       <div className="flex items-start justify-between gap-3">
         <span
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition ${
-            selected ? "bg-navy text-teal" : "bg-teal-soft text-navy"
+            selected ? "bg-teal text-white" : "bg-teal/10 text-teal"
           }`}
         >
           <MapPin className="h-5 w-5" aria-hidden="true" />
@@ -599,7 +597,7 @@ function DetailsPanel({ area }: { area: Area | null }) {
     return (
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <p className="text-sm text-muted-foreground">
-          Select an area to view its monitoring information.
+          Click on any zone to see its pipe statistics and health.
         </p>
       </div>
     );
@@ -607,12 +605,12 @@ function DetailsPanel({ area }: { area: Area | null }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-      <div className="border-b border-border bg-navy px-6 py-5 text-white">
+      <div className="border-b border-border bg-card px-6 py-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-teal">
           Area details
         </p>
-        <h2 className="mt-1.5 text-xl font-bold">{area.name}</h2>
-        <p className="mt-1 text-sm text-white/70">{area.geoType}</p>
+        <h2 className="mt-1.5 text-xl font-bold text-foreground">{area.name}</h2>
+        <p className="mt-1 text-sm text-muted-foreground">{area.geoType}</p>
       </div>
 
       <div className="space-y-6 px-6 py-6">
@@ -711,18 +709,12 @@ function MethodologyBox({ stats }: { stats: DetectionStats }) {
     >
       <h3 className="flex items-center gap-2 text-sm font-bold text-foreground">
         <FlaskConical className="h-4 w-4 text-teal" aria-hidden="true" />
-        Detection Method — Modified Z-score (Iglewicz &amp; Hoaglin 1993)
+        How We Detect Issues
       </h3>
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-        Unusual readings are identified using the <strong className="text-foreground">Modified Z-score</strong> method
-        applied independently to flow rate (L/s) and pressure (kPa) across all {stats.totalAssets} pipe assets.
-        {" "}Formula:{" "}
-        <code className="rounded bg-secondary px-1 py-0.5 font-mono text-xs">M = 0.6745 × (xi − median) / MAD</code>
-        {" "}where MAD = Median Absolute Deviation.
-        Assets with{" "}
-        <code className="rounded bg-secondary px-1 py-0.5 font-mono text-xs">|M| &gt; {stats.threshold}</code>
-        {" "}are flagged. This is a standard, robust threshold for small datasets.
-        Composite risk score = flow outlier magnitude (0–40 pts) + pressure outlier magnitude (0–40 pts) + asset age (0–10 pts) + past repairs (0–10 pts).
+        We analyze all {stats.totalAssets} pipes to find flow and pressure readings that stray unusually far from normal.
+        Our system compares each pipe against the city's baseline using a mathematical formula called the <strong className="text-foreground">Modified Z-score</strong>.
+        If a reading is significantly higher or lower than expected, it gets flagged. We then combine this with the pipe's age and past repairs to calculate a simple risk score out of 100.
       </p>
 
       <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -782,14 +774,13 @@ function InspectionPriorityList({ results }: { results: AnomalyResult[] }) {
         </span>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
-        All {results.length} assets ranked by composite risk score (highest first).
-        Flagged assets have at least one statistically unusual reading (|modified Z| &gt; 3.5).
+        A ranked list of all {results.length} pipes. Pipes highlighted in red have shown highly unusual water pressure or flow and should be inspected immediately.
       </p>
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-border shadow-sm">
         <table className="w-full min-w-[44rem] text-left text-xs" id="priority-table">
           <thead>
-            <tr className="border-b border-border bg-navy text-white/70">
+            <tr className="border-b border-border bg-secondary text-muted-foreground">
               <th scope="col" className="px-4 py-3 font-semibold">#</th>
               <th scope="col" className="px-4 py-3 font-semibold">Asset ID</th>
               <th scope="col" className="px-4 py-3 font-semibold">Zone</th>
@@ -878,14 +869,14 @@ function InspectionBriefCard({ brief }: { brief: InspectionBrief }) {
       className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
     >
       {/* Card header */}
-      <div className="border-b border-border bg-navy px-5 py-4">
+      <div className="border-b border-border bg-card px-5 py-4">
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-widest text-teal">
               Priority #{brief.rank}
             </p>
-            <p className="mt-0.5 text-base font-bold text-white">{brief.assetId}</p>
-            <p className="text-xs text-white/60">{brief.zone}</p>
+            <p className="mt-0.5 text-base font-bold text-foreground">{brief.assetId}</p>
+            <p className="text-xs text-muted-foreground">{brief.zone}</p>
           </div>
           <span
             className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold ${
@@ -933,9 +924,9 @@ function InspectionBriefCard({ brief }: { brief: InspectionBrief }) {
         </section>
 
         {/* Detection reasons — deterministic */}
-        <section aria-label="Detection reasons">
+        <section aria-label="Why this pipe was flagged">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Why flagged (deterministic calculation)
+            Why this pipe was flagged
           </p>
           <div className="mt-2 space-y-2">
             {brief.flags.map((f) => (
@@ -953,9 +944,9 @@ function InspectionBriefCard({ brief }: { brief: InspectionBrief }) {
         </section>
 
         {/* Inspection checks */}
-        <section aria-label="Recommended inspection checks">
+        <section aria-label="What the team should check">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-            Recommended inspection checks
+            What the team should check
           </p>
           <ul className="mt-2 space-y-1.5">
             {brief.inspectionChecks.map((check, i) => (
@@ -968,11 +959,11 @@ function InspectionBriefCard({ brief }: { brief: InspectionBrief }) {
         </section>
 
         {/* Uncertainty */}
-        <section aria-label="Uncertainty statement">
+        <section aria-label="Note on data accuracy">
           <div className="flex items-start gap-2 rounded-lg border border-border bg-secondary/40 p-3">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
             <p className="text-[11px] leading-relaxed text-muted-foreground">
-              <strong className="text-foreground">Uncertainty: </strong>
+              <strong className="text-foreground">Please note: </strong>
               {brief.uncertainty}
             </p>
           </div>
@@ -996,12 +987,11 @@ function InspectionBriefs({ briefs }: { briefs: InspectionBrief[] }) {
       <div className="flex items-center gap-2">
         <ShieldAlert className="h-5 w-5 text-teal" aria-hidden="true" />
         <h3 id="briefs-heading" className="text-base font-bold text-foreground">
-          Field-Team Inspection Briefs — Top {briefs.length} Priority Assets
+          Action Plans for Top {briefs.length} Priority Pipes
         </h3>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
-        Generated from statistical anomaly detection only. No AI-invented conditions or live readings.
-        Field teams must apply engineering judgment before acting.
+        These briefs are generated automatically based on unusual pressure and flow data. Maintenance teams should use these as a starting point for their inspections.
       </p>
 
       <div className="mt-4 grid gap-6 lg:grid-cols-3">

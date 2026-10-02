@@ -49,16 +49,16 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1rem;
 
   /* Navy family */
   --navy: oklch(0.27 0.06 262);
   --navy-deep: oklch(0.2 0.055 264);
   --navy-soft: oklch(0.4 0.05 260);
 
-  /* Teal accent */
-  --teal: oklch(0.63 0.11 194);
-  --teal-soft: oklch(0.93 0.035 195);
+  /* Teal accent -> Blue Accent to match reference */
+  --teal: oklch(0.623 0.214 259.815);
+  --teal-soft: oklch(0.95 0.05 259.815);
 
   --background: oklch(0.975 0.004 240);
   --surface: oklch(1 0 0);

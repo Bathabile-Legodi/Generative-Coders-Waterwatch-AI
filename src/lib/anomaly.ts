@@ -66,21 +66,21 @@ interface RawPipe {
 }
 
 const PIPES: RawPipe[] = [
-  { assetId: "ZoneA-Pipe-01", zone: "Zone A", assetAgeYears: 6,  avgFlowLps: 8.16,  avgPressureKpa: 179.4, pastRepairsLast2Yrs: 2 },
-  { assetId: "ZoneA-Pipe-02", zone: "Zone A", assetAgeYears: 34, avgFlowLps: 17.05, avgPressureKpa: 237.9, pastRepairsLast2Yrs: 5 },
-  { assetId: "ZoneA-Pipe-03", zone: "Zone A", assetAgeYears: 32, avgFlowLps: 2.2,   avgPressureKpa: 430.0, pastRepairsLast2Yrs: 3 },
-  { assetId: "ZoneA-Pipe-04", zone: "Zone A", assetAgeYears: 6,  avgFlowLps: 10.89, avgPressureKpa: 334.8, pastRepairsLast2Yrs: 1 },
-  { assetId: "ZoneA-Pipe-05", zone: "Zone A", assetAgeYears: 29, avgFlowLps: 9.62,  avgPressureKpa: 432.1, pastRepairsLast2Yrs: 1 },
-  { assetId: "ZoneB-Pipe-01", zone: "Zone B", assetAgeYears: 34, avgFlowLps: 7.96,  avgPressureKpa: 313.7, pastRepairsLast2Yrs: 2 },
-  { assetId: "ZoneB-Pipe-02", zone: "Zone B", assetAgeYears: 2,  avgFlowLps: 22.77, avgPressureKpa: 216.6, pastRepairsLast2Yrs: 3 },
-  { assetId: "ZoneB-Pipe-03", zone: "Zone B", assetAgeYears: 24, avgFlowLps: 2.93,  avgPressureKpa: 245.7, pastRepairsLast2Yrs: 1 },
-  { assetId: "ZoneB-Pipe-04", zone: "Zone B", assetAgeYears: 8,  avgFlowLps: 3.54,  avgPressureKpa: 359.0, pastRepairsLast2Yrs: 0 },
-  { assetId: "ZoneB-Pipe-05", zone: "Zone B", assetAgeYears: 26, avgFlowLps: 25.71, avgPressureKpa: 152.5, pastRepairsLast2Yrs: 2 },
-  { assetId: "ZoneC-Pipe-01", zone: "Zone C", assetAgeYears: 19, avgFlowLps: 5.25,  avgPressureKpa: 324.2, pastRepairsLast2Yrs: 3 },
-  { assetId: "ZoneC-Pipe-02", zone: "Zone C", assetAgeYears: 13, avgFlowLps: 7.58,  avgPressureKpa: 375.3, pastRepairsLast2Yrs: 0 },
-  { assetId: "ZoneC-Pipe-03", zone: "Zone C", assetAgeYears: 31, avgFlowLps: 13.73, avgPressureKpa: 301.6, pastRepairsLast2Yrs: 1 },
-  { assetId: "ZoneC-Pipe-04", zone: "Zone C", assetAgeYears: 14, avgFlowLps: 21.33, avgPressureKpa: 181.7, pastRepairsLast2Yrs: 4 },
-  { assetId: "ZoneC-Pipe-05", zone: "Zone C", assetAgeYears: 29, avgFlowLps: 14.35, avgPressureKpa: 435.2, pastRepairsLast2Yrs: 2 },
+  { assetId: "ZoneA-Pipe-01", zone: "Johannesburg Central", assetAgeYears: 6,  avgFlowLps: 8.16,  avgPressureKpa: 179.4, pastRepairsLast2Yrs: 2 },
+  { assetId: "ZoneA-Pipe-02", zone: "Johannesburg Central", assetAgeYears: 34, avgFlowLps: 17.05, avgPressureKpa: 237.9, pastRepairsLast2Yrs: 5 },
+  { assetId: "ZoneA-Pipe-03", zone: "Johannesburg Central", assetAgeYears: 32, avgFlowLps: 2.2,   avgPressureKpa: 430.0, pastRepairsLast2Yrs: 3 },
+  { assetId: "ZoneA-Pipe-04", zone: "Johannesburg Central", assetAgeYears: 6,  avgFlowLps: 10.89, avgPressureKpa: 334.8, pastRepairsLast2Yrs: 1 },
+  { assetId: "ZoneA-Pipe-05", zone: "Johannesburg Central", assetAgeYears: 29, avgFlowLps: 9.62,  avgPressureKpa: 432.1, pastRepairsLast2Yrs: 1 },
+  { assetId: "ZoneB-Pipe-01", zone: "Sandton", assetAgeYears: 34, avgFlowLps: 7.96,  avgPressureKpa: 313.7, pastRepairsLast2Yrs: 2 },
+  { assetId: "ZoneB-Pipe-02", zone: "Sandton", assetAgeYears: 2,  avgFlowLps: 22.77, avgPressureKpa: 216.6, pastRepairsLast2Yrs: 3 },
+  { assetId: "ZoneB-Pipe-03", zone: "Sandton", assetAgeYears: 24, avgFlowLps: 2.93,  avgPressureKpa: 245.7, pastRepairsLast2Yrs: 1 },
+  { assetId: "ZoneB-Pipe-04", zone: "Sandton", assetAgeYears: 8,  avgFlowLps: 3.54,  avgPressureKpa: 359.0, pastRepairsLast2Yrs: 0 },
+  { assetId: "ZoneB-Pipe-05", zone: "Sandton", assetAgeYears: 26, avgFlowLps: 25.71, avgPressureKpa: 152.5, pastRepairsLast2Yrs: 2 },
+  { assetId: "ZoneC-Pipe-01", zone: "Soweto", assetAgeYears: 19, avgFlowLps: 5.25,  avgPressureKpa: 324.2, pastRepairsLast2Yrs: 3 },
+  { assetId: "ZoneC-Pipe-02", zone: "Soweto", assetAgeYears: 13, avgFlowLps: 7.58,  avgPressureKpa: 375.3, pastRepairsLast2Yrs: 0 },
+  { assetId: "ZoneC-Pipe-03", zone: "Soweto", assetAgeYears: 31, avgFlowLps: 13.73, avgPressureKpa: 301.6, pastRepairsLast2Yrs: 1 },
+  { assetId: "ZoneC-Pipe-04", zone: "Soweto", assetAgeYears: 14, avgFlowLps: 21.33, avgPressureKpa: 181.7, pastRepairsLast2Yrs: 4 },
+  { assetId: "ZoneC-Pipe-05", zone: "Soweto", assetAgeYears: 29, avgFlowLps: 14.35, avgPressureKpa: 435.2, pastRepairsLast2Yrs: 2 },
 ];
 
 // ─── Statistical helpers ──────────────────────────────────────────────────────

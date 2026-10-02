@@ -113,24 +113,24 @@ function ReportPage() {
 
 function ReportHeader({ view, setView, reportCount }: { view: "form"|"list"; setView: (v: "form"|"list") => void; reportCount: number }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-navy shadow-lg">
+    <header className="sticky top-0 z-40 border-b border-border bg-card shadow-sm">
       <div className="mx-auto flex w-full max-w-2xl items-center gap-3 px-4 py-3">
-        <Link to="/" className="flex shrink-0 items-center gap-2 text-white/60 transition hover:text-white" aria-label="Dashboard">
+        <Link to="/" className="flex shrink-0 items-center gap-2 text-muted-foreground transition hover:text-foreground" aria-label="Dashboard">
           <Droplets className="h-5 w-5 text-teal" aria-hidden="true" />
           <span className="hidden text-xs font-semibold sm:block">Waterwatch AI</span>
         </Link>
-        <ChevronRight className="h-3 w-3 shrink-0 text-white/30" aria-hidden="true" />
+        <ChevronRight className="h-3 w-3 shrink-0 text-muted-foreground/40" aria-hidden="true" />
         <div className="flex min-w-0 flex-1 items-center gap-1.5">
           <ShieldAlert className="h-4 w-4 shrink-0 text-teal" aria-hidden="true" />
-          <span className="truncate text-sm font-bold text-white">Community Leak Reporting</span>
+          <span className="truncate text-sm font-bold text-foreground">Community Leak Reporting</span>
         </div>
-        <div className="flex shrink-0 items-center gap-1 rounded-xl bg-white/10 p-1">
+        <div className="flex shrink-0 items-center gap-1 rounded-xl bg-secondary p-1">
           <button id="tab-report-form" type="button" onClick={() => setView("form")}
-            className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${view === "form" ? "bg-teal text-navy shadow-sm" : "text-white/60 hover:text-white"}`}>
+            className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${view === "form" ? "bg-teal text-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
             Report
           </button>
           <button id="tab-my-reports" type="button" onClick={() => setView("list")}
-            className={`relative rounded-lg px-3 py-1.5 text-xs font-semibold transition ${view === "list" ? "bg-teal text-navy shadow-sm" : "text-white/60 hover:text-white"}`}>
+            className={`relative rounded-lg px-3 py-1.5 text-xs font-semibold transition ${view === "list" ? "bg-teal text-white shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
             My Reports
             {reportCount > 0 && (
               <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white leading-none">
@@ -440,20 +440,20 @@ function ReportCard({ report, onDelete }: { report: LeakReport; onDelete: (id: s
   return (
     <article role="listitem" aria-label={`Report ${report.id} — ${cat.label}`}
       className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-      <div className="flex items-start gap-3 border-b border-border bg-navy px-4 py-3.5">
+      <div className="flex items-start gap-3 border-b border-border bg-card px-4 py-3.5">
         <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${bg}`}>
           <CatIcon className={`h-4 w-4 ${color}`} aria-hidden="true" />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-bold text-white">{cat.label}</p>
-          <p className="font-mono text-[10px] text-white/40">{report.id}</p>
+          <p className="text-xs font-bold text-foreground">{cat.label}</p>
+          <p className="font-mono text-[10px] text-muted-foreground">{report.id}</p>
         </div>
         <div className="flex items-center gap-2">
           <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold ${status.bg} ${status.color}`}>
             <StatusIcon className="h-3 w-3" aria-hidden="true" />{status.label}
           </span>
           <button type="button" onClick={() => onDelete(report.id)} aria-label={`Delete report ${report.id}`}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-white/30 transition hover:bg-white/10 hover:text-red-400">
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-red-500/10 hover:text-red-500">
             <X className="h-3.5 w-3.5" aria-hidden="true" />
           </button>
         </div>
