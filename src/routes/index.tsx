@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from "react-leaflet";
 import {
   AREAS,
   DATA_NOT_AVAILABLE,
@@ -216,14 +217,21 @@ function Header({
 
           {/* Desktop Nav */}
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1 ml-8">
-            <a
-              href="/"
-              aria-current="page"
+            <Link
+              to="/"
               className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white ring-1 ring-inset ring-teal/40 transition hover:bg-white/15"
+              activeProps={{ className: "bg-white/15" }}
             >
               <LayoutDashboard className="h-4 w-4 text-teal" aria-hidden="true" />
               Dashboard
-            </a>
+            </Link>
+            <Link
+              to="/report"
+              className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
+            >
+              <AlertTriangle className="h-4 w-4 text-teal" aria-hidden="true" />
+              Report a Leak
+            </Link>
           </nav>
 
           <div className="ml-auto flex items-center gap-3">
@@ -254,15 +262,24 @@ function Header({
         {/* Mobile nav drawer */}
         {mobileMenuOpen && (
           <div className="border-t border-white/10 bg-navy px-4 pb-4 pt-2 md:hidden">
-            <a
-              href="/"
-              aria-current="page"
-              className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-3 text-sm font-semibold text-white ring-1 ring-inset ring-teal/40"
+            <Link
+              to="/"
+              className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
+              activeProps={{ className: "bg-white/10 text-white ring-1 ring-inset ring-teal/40" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               <LayoutDashboard className="h-4 w-4 text-teal" aria-hidden="true" />
               Dashboard
-            </a>
+            </Link>
+            <Link
+              to="/report"
+              className="mt-1 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold text-white/70 transition hover:bg-white/10 hover:text-white"
+              activeProps={{ className: "bg-white/10 text-white ring-1 ring-inset ring-teal/40" }}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <AlertTriangle className="h-4 w-4 text-teal" aria-hidden="true" />
+              Report a Leak
+            </Link>
             <p className="mt-4 px-1 text-[11px] text-white/40">
               Milestone 1 · Area overview
             </p>
@@ -273,58 +290,31 @@ function Header({
   );
 }
 
-// ─── Leakage Map ─────────────────────────────────────────────────────────────
+// ─── OpenStreetMap / Leaflet Map ─────────────────────────────────────────────
 
-/**
- * South Africa simplified SVG outline + glowing dot markers.
- * Coordinates are projected from lat/lng into a 600×500 viewBox using
- * a simple linear projection calibrated to SA's bounding box.
- *
- * SA bounding box (approx):
- *   lat: -22.1° (north) to -34.8° (south)
- *   lng: 16.4° (west)  to 32.9° (east)
- */
-const SA_LAT_MIN = -34.9;
-const SA_LAT_MAX = -22.0;
-const SA_LNG_MIN = 16.3;
-const SA_LNG_MAX = 33.1;
-const MAP_W = 600;
-const MAP_H = 500;
-
-function projectCoord(lat: number, lng: number) {
-  const x = ((lng - SA_LNG_MIN) / (SA_LNG_MAX - SA_LNG_MIN)) * MAP_W;
-  const y = ((SA_LAT_MAX - lat) / (SA_LAT_MAX - SA_LAT_MIN)) * MAP_H;
-  return { x, y };
-}
 
 const RISK_COLORS: Record<Area["leakageRisk"], string> = {
-  high: "#ef4444",   // red-500
-  medium: "#f97316", // orange-500
-  low: "#22d3ee",    // cyan-400
+  high:   "#ef4444",  // red-500
+  medium: "#f97316",  // orange-500
+  low:    "#22d3ee",  // cyan-400
 };
 
 // REPAIR_LABEL: based on totalRepairsLast2Yrs (high ≥10, medium 5–9, low <5)
 // These are zone-level repair counts, not live risk assessments.
 const REPAIR_LABEL: Record<Area["leakageRisk"], string> = {
-  high: "High repairs (≥10)",
+  high:   "High repairs (≥10)",
   medium: "Medium repairs (5–9)",
-  low: "Low repairs (<5)",
+  low:    "Low repairs (<5)",
 };
 
-
-// Simplified South Africa SVG path (public domain outline)
-// This is a rough representative outline using approximate coordinates.
-const SA_PATH = `
-  M 180 40
-  L 230 10 L 310 5 L 380 20 L 440 40 L 510 70
-  L 560 110 L 580 160 L 575 210 L 555 255
-  L 530 290 L 500 315 L 470 330 L 445 360
-  L 420 390 L 395 420 L 370 450 L 345 470
-  L 320 480 L 300 475 L 280 460 L 255 440
-  L 230 415 L 205 385 L 180 355 L 155 320
-  L 130 285 L 110 250 L 90 210 L 75 165
-  L 70 120 L 80 80 L 110 55 L 145 42 Z
-`;
+/** Recenter + zoom the map whenever selectedArea changes. */
+function MapFlyTo({ area }: { area: Area | null }) {
+  const map = useMap();
+  if (area) {
+    map.flyTo([area.coordinates.lat, area.coordinates.lng], 6, { duration: 0.8 });
+  }
+  return null;
+}
 
 function LeakageMap({
   areas,
@@ -335,19 +325,27 @@ function LeakageMap({
   selectedArea: Area | null;
   onSelect: (area: Area) => void;
 }) {
+  // SA-centered default view
+  const SA_CENTER: [number, number] = [-28.5, 25.0];
+  const SA_ZOOM = 5;
+
   return (
-    <section aria-labelledby="map-heading" className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <section
+      aria-labelledby="map-heading"
+      className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+    >
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-border bg-navy px-5 py-4">
+      <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border bg-navy px-5 py-4">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-widest text-teal">
-            Illustrative Zone Overview
+            OpenStreetMap · Illustrative Zone Overview
           </p>
           <h2 id="map-heading" className="mt-0.5 text-base font-bold text-white">
-            Zone Location Diagram
+            Zone Location Map
           </h2>
           <p className="mt-0.5 text-[10px] text-white/40">
-            Dot positions are approximate SA city locations — not GPS coordinates from the dataset.
+            Marker positions use approximate South African city coordinates —
+            not GPS data from the synthetic dataset. Click a marker to select its zone.
           </p>
         </div>
         {/* Legend — based on repair count, not live risk */}
@@ -364,122 +362,80 @@ function LeakageMap({
         </div>
       </div>
 
-      {/* Map canvas */}
-      <div className="relative bg-[oklch(0.18_0.04_262)] p-2 sm:p-4">
-        <svg
-          viewBox={`0 0 ${MAP_W} ${MAP_H}`}
-          className="w-full max-h-[340px]"
-          aria-label="Map of South Africa showing leakage areas"
-          role="img"
+      {/* Map */}
+      <div className="relative">
+        <MapContainer
+          center={SA_CENTER}
+          zoom={SA_ZOOM}
+          className="waterwatch-map-container"
+          zoomControl={true}
+          scrollWheelZoom={false}
+          attributionControl={true}
         >
-          <defs>
-            {areas.map((area) => (
-              <radialGradient
-                key={`glow-${area.id}`}
-                id={`glow-${area.id}`}
-                cx="50%"
-                cy="50%"
-                r="50%"
-              >
-                <stop offset="0%" stopColor={RISK_COLORS[area.leakageRisk]} stopOpacity="0.9" />
-                <stop offset="100%" stopColor={RISK_COLORS[area.leakageRisk]} stopOpacity="0" />
-              </radialGradient>
-            ))}
-          </defs>
-
-          {/* Grid lines */}
-          {[100, 200, 300, 400].map((y) => (
-            <line key={`h${y}`} x1={0} y1={y} x2={MAP_W} y2={y}
-              stroke="oklch(0.5 0.04 260 / 15%)" strokeWidth={1} />
-          ))}
-          {[100, 200, 300, 400, 500].map((x) => (
-            <line key={`v${x}`} x1={x} y1={0} x2={x} y2={MAP_H}
-              stroke="oklch(0.5 0.04 260 / 15%)" strokeWidth={1} />
-          ))}
-
-          {/* South Africa outline */}
-          <path
-            d={SA_PATH}
-            fill="oklch(0.28 0.05 262)"
-            stroke="oklch(0.63 0.11 194 / 50%)"
-            strokeWidth={1.5}
-            strokeLinejoin="round"
+          {/* OpenStreetMap tiles */}
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            maxZoom={18}
           />
 
-          {/* Leakage zone markers */}
+          {/* Fly to selected zone */}
+          <MapFlyTo area={selectedArea} />
+
+          {/* Zone markers */}
           {areas.map((area) => {
-            const { x, y } = projectCoord(area.coordinates.lat, area.coordinates.lng);
             const isSelected = selectedArea?.id === area.id;
             const color = RISK_COLORS[area.leakageRisk];
+            const radius = isSelected ? 18 : 13;
 
             return (
-              <g
+              <CircleMarker
                 key={area.id}
-                onClick={() => onSelect(area)}
-                role="button"
-                aria-label={`${area.name}: ${REPAIR_LABEL[area.leakageRisk]}. Click to view details.`}
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && onSelect(area)}
-                style={{ cursor: "pointer" }}
+                center={[area.coordinates.lat, area.coordinates.lng]}
+                radius={radius}
+                pathOptions={{
+                  color: "white",
+                  weight: isSelected ? 3 : 2,
+                  fillColor: color,
+                  fillOpacity: 0.92,
+                  opacity: 1,
+                }}
+                eventHandlers={{
+                  click: () => onSelect(area),
+                }}
               >
-                {/* Outer glow circle */}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={isSelected ? 32 : 26}
-                  fill={`url(#glow-${area.id})`}
-                  opacity={isSelected ? 1 : 0.7}
-                  style={{ transition: "r 0.3s ease, opacity 0.3s ease" }}
-                />
-
-                {/* Pulsing ring (CSS animation via style tag) */}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={isSelected ? 14 : 10}
-                  fill="none"
-                  stroke={color}
-                  strokeWidth={isSelected ? 2 : 1.5}
-                  opacity={0.5}
-                  style={{
-                    animation: "leakage-pulse 2s ease-in-out infinite",
-                    transformOrigin: `${x}px ${y}px`,
-                  }}
-                />
-
-                {/* Core dot */}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={isSelected ? 8 : 6}
-                  fill={color}
-                  stroke="white"
-                  strokeWidth={isSelected ? 2 : 1.5}
-                  style={{ transition: "r 0.3s ease" }}
-                />
-
-                {/* Label */}
-                <text
-                  x={x}
-                  y={y + (isSelected ? 22 : 18)}
-                  textAnchor="middle"
-                  fontSize={isSelected ? 11 : 9}
-                  fill="white"
-                  fontWeight={isSelected ? "700" : "500"}
-                  style={{ transition: "all 0.3s ease", pointerEvents: "none" }}
-                >
-                  {area.name}
-                </text>
-              </g>
+                <Popup minWidth={200} maxWidth={260}>
+                  <div style={{ fontFamily: "Inter, sans-serif" }}>
+                    <p style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color, marginBottom: 2 }}>
+                      {REPAIR_LABEL[area.leakageRisk]}
+                    </p>
+                    <p style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>{area.name}</p>
+                    <p style={{ fontSize: 11, opacity: 0.7, margin: "0 0 8px" }}>{area.geoType}</p>
+                    <table style={{ width: "100%", fontSize: 11, borderCollapse: "collapse" }}>
+                      <tbody>
+                        {[
+                          ["Assets", area.measurements.assetCount],
+                          ["Avg flow", `${area.measurements.avgFlowLps.toFixed(1)} L/s`],
+                          ["Avg pressure", `${area.measurements.avgPressureKpa.toFixed(1)} kPa`],
+                          ["Avg age", `${area.measurements.avgAssetAgeYears.toFixed(1)} yrs`],
+                          ["Repairs (2yr)", area.measurements.totalRepairsLast2Yrs],
+                        ].map(([label, value]) => (
+                          <tr key={String(label)} style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                            <td style={{ padding: "3px 0", opacity: 0.6 }}>{label}</td>
+                            <td style={{ padding: "3px 0", textAlign: "right", fontWeight: 600 }}>{String(value)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                    <p style={{ fontSize: 10, opacity: 0.4, marginTop: 8, fontStyle: "italic" }}>
+                      Approximate location — not dataset coordinates
+                    </p>
+                  </div>
+                </Popup>
+              </CircleMarker>
             );
           })}
-        </svg>
-
-        {/* Disclaimer */}
-        <p className="mt-2 text-center text-[10px] italic text-white/30">
-          Demonstration map — coordinates are approximate South African city locations,
-          not sourced from the meter dataset.
-        </p>
+        </MapContainer>
       </div>
     </section>
   );
