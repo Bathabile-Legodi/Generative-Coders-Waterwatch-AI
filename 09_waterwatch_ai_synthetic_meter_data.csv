@@ -1,0 +1,16 @@
+asset_id,zone,asset_age_years,avg_flow_lps,avg_pressure_kpa,past_repairs_last_2yrs
+ZoneA-Pipe-01,Zone A,6,8.16,179.4,2
+ZoneA-Pipe-02,Zone A,34,17.05,237.9,5
+ZoneA-Pipe-03,Zone A,32,2.2,430.0,3
+ZoneA-Pipe-04,Zone A,6,10.89,334.8,1
+ZoneA-Pipe-05,Zone A,29,9.62,432.1,1
+ZoneB-Pipe-01,Zone B,34,7.96,313.7,2
+ZoneB-Pipe-02,Zone B,2,22.77,216.6,3
+ZoneB-Pipe-03,Zone B,24,2.93,245.7,1
+ZoneB-Pipe-04,Zone B,8,3.54,359.0,0
+ZoneB-Pipe-05,Zone B,26,25.71,152.5,2
+ZoneC-Pipe-01,Zone C,19,5.25,324.2,3
+ZoneC-Pipe-02,Zone C,13,7.58,375.3,0
+ZoneC-Pipe-03,Zone C,31,13.73,301.6,1
+ZoneC-Pipe-04,Zone C,14,21.33,181.7,4
+ZoneC-Pipe-05,Zone C,29,14.35,435.2,2
