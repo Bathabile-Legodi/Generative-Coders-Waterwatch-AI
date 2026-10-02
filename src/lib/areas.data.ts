@@ -36,8 +36,16 @@ export interface Area {
   dataSource: DataSource;
   assets: PipeAsset[];
   measurements: ZoneMeasurements;
-  /** Present only when the dataset supplies coordinates. None do yet. */
-  coordinates?: { lat: number; lng: number };
+  /**
+   * Representative coordinates for map display (demonstration placeholders).
+   * These are approximate South African city coordinates used for visual
+   * map rendering only — not sourced from the meter dataset.
+   */
+  coordinates: { lat: number; lng: number };
+  /**
+   * Leakage risk level derived from totalRepairsLast2Yrs: high (≥10), medium (5–9), low (<5).
+   */
+  leakageRisk: "high" | "medium" | "low";
 }
 
 interface RawRow {
@@ -85,18 +93,32 @@ function buildArea(zoneName: string): Area {
   const sum = (pick: (row: RawRow) => number) =>
     rows.reduce((total, row) => total + pick(row), 0);
 
+  const totalRepairs = sum((r) => r.past_repairs_last_2yrs);
+  const leakageRisk: Area["leakageRisk"] =
+    totalRepairs >= 10 ? "high" : totalRepairs >= 5 ? "medium" : "low";
+
+  // Demonstration coordinates only — approximate South African city locations
+  // used for visual map rendering, not sourced from the meter dataset.
+  const ZONE_COORDS: Record<string, { lat: number; lng: number }> = {
+    "Zone A": { lat: -26.2041, lng: 28.0473 },  // Johannesburg
+    "Zone B": { lat: -33.9249, lng: 18.4241 },  // Cape Town
+    "Zone C": { lat: -29.8587, lng: 31.0218 },  // Durban
+  };
+
   return {
     id: zoneName.toLowerCase().replace(/\s+/g, "-"),
     name: zoneName,
     geoType: "Water network zone (synthetic)",
     dataSource: "Workshop synthetic data",
     assets,
+    coordinates: ZONE_COORDS[zoneName] ?? { lat: -28.4793, lng: 24.6727 },
+    leakageRisk,
     measurements: {
       assetCount: n,
       avgFlowLps: round1(sum((r) => r.avg_flow_lps) / n),
       avgPressureKpa: round1(sum((r) => r.avg_pressure_kpa) / n),
       avgAssetAgeYears: round1(sum((r) => r.asset_age_years) / n),
-      totalRepairsLast2Yrs: sum((r) => r.past_repairs_last_2yrs),
+      totalRepairsLast2Yrs: totalRepairs,
     },
   };
 }
